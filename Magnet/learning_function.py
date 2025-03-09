@@ -48,7 +48,12 @@ def learning_function(model,optimizer,device,images_train, labels_train,images_t
             batch_inds,batch_label,chosen_clusters = CB.construct_batch(indices[s])
             targets                = images_train[batch_inds]
             
-            targets         = torch.from_numpy(targets).to(device=device, dtype=torch.float)
+            # Once again, I just modified to handle tensors
+            if isinstance(targets, torch.Tensor):
+              targets = targets.to(device=device, dtype=torch.float)
+            else:
+              targets         = torch.from_numpy(targets).to(device=device, dtype=torch.float)
+
             batch_label     = torch.from_numpy(batch_label).to(device=device, dtype=torch.float)
             chosen_clusters = torch.from_numpy(chosen_clusters).to(device=device, dtype=torch.float)
             

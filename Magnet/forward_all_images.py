@@ -6,7 +6,12 @@ def forward_all_images(model,device,all_img):
     batch_size          = Facnet_config['batch_size']
     
     device      = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    all_img     = torch.from_numpy(all_img)
+
+    # Adding this should handle both numpy array or tensors 
+    # It is useful because CIFAR-10 is imported from torchvision as tensors 
+    # so this step can be avoided
+    if not isinstance(all_img, torch.Tensor):
+      all_img = torch.from_numpy(all_img)
 
     all_features  = []
     for i in range(0,all_img.shape[0],batch_size):
