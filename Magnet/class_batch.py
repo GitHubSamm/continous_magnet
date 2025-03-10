@@ -24,10 +24,13 @@ class class_batch():
         batch_inds  = []
         batch_label = []
         
+        # The seed cluster has less than D samples
         if self.samples_indices[inds1].shape[0]<self.D:
+            # Take all the sample of the seed cluster
             batch_inds.append(self.samples_indices[inds1])
             batch_label.append(np.repeat(np.expand_dims(self.clusters_labels[inds1],axis=0),self.samples_indices[inds1].shape[0],axis=0))
         else:
+            # Take D random samples of the seed cluster
             batch_inds.append(self.samples_indices[inds1][np.random.randint(low=0, high=self.samples_indices[inds1].shape[0], size=self.D)])   
             batch_label.append(np.repeat(np.expand_dims(self.clusters_labels[inds1],axis=0),self.D,axis=0))
         

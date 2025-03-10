@@ -16,6 +16,7 @@ def test_model(train_features, labels_train,test_features,labels_test):
     D  = np.square(D)
     I  = np.argsort(D,axis=1)
     Conf1     = KNN_conf(I[:,1:K+1], labels_train)
+    # Looks useless
     Conf      = np.max(Conf1,axis=1)
     label_pred = np.argmax(Conf1,axis=1)
     acc = accuracy_score(labels_test, label_pred)

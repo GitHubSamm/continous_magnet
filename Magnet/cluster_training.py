@@ -31,5 +31,6 @@ def cluster_training(train_features,train_labels):
         
     clusters_centers = np.stack(clusters_centers,axis=0)   
     clusters_labels  = np.stack(clusters_labels,axis=0)
+    # Careful here, this assumes that nb_cluster is the same for all the classes
     sigma = sigma/(nb_clusters*len(list_classes))
     return clusters_centers,clusters_labels,samples_indices,sigma
