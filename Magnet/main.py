@@ -23,8 +23,14 @@ transform = transforms.Compose([
 train_dataset = datasets.CIFAR10(root='./data', train=True, download=True, transform=transform)
 test_dataset  = datasets.CIFAR10(root='./data', train=False, download=True, transform=transform)
 
-images_train, labels_train = resize_dataset(train_dataset, 500, 10)
-images_test, labels_test   = resize_dataset(test_dataset, 100, 10)
+images_train, labels_train = resize_dataset(train_dataset, 2000, 10)
+images_test, labels_test   = resize_dataset(test_dataset, 400, 10)
+
+print(f"images_train size: {images_train.shape}")
+print(f"labels_train size: {labels_train.shape}")
+print(f"images_test size: {images_test.shape}")
+print(f"labels_test size: {labels_test.shape}")
+
 
 ##########################################################################################
 ## ------------------------------------- Creating the model-----------------------------##
