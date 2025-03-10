@@ -40,4 +40,21 @@ def split_train_data(train_data, train_labels, n_increments):
 
     return train_data_per_increment, train_label_per_increment
 
+def split_test_data(test_data, test_labels, n_increments):
 
+  test_data_per_increment = []
+  test_label_per_increment = []
+
+  n_cls = len(torch.unique(test_labels))
+  n_class_per_increment = n_cls // n_increments
+
+  if n_cls % n_increments != 0:
+        raise ValueError("n_increments should divide the number of classes in the dataset")
+
+  for incr in range(1, n_increments+1):
+    cls_idx = torch.tensor([i for i in range(n_class_per_increment * incr)])
+    incr_idx = torch.isin(test_labels, cls_idx)
+    test_label_per_increment.append(test_labels[incr_idx])
+    test_data_per_increment.append(test_data[incr_idx])
+
+  return test_data_per_increment, test_label_per_increment
