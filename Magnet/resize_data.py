@@ -23,18 +23,21 @@ def resize_dataset(dataset, n_samples, n_cls=10):
 
 def split_train_data(train_data, train_labels, n_increments):
 
-    increments_data = []
-    if len(np.unique(train_labels)) % n_increments != 0:
+    train_data_per_increment = []
+    train_label_per_increment = []
+    n_cls = len(torch.unique(train_labels))
+    n_class_per_increment = n_cls // n_increments
+
+    if n_cls % n_increments != 0:
         raise ValueError("n_increments should divide the number of classes in the dataset")
-    
-    n_class_per_increment = len(np.unique(train_labels)) / n_increments
+
     # Assuming class labels goes from 0 to n_classes
-    for i in range(n_increments):
-        increments_data.append(train_data[np.where(train_labels == [j+n_class_per_increment for j in range(n_class_per_increment)])])
+    for incr in range(n_increments):
+        cls_idx = torch.tensor([i+incr*n_class_per_increment for i in range(n_class_per_increment)])
+        incr_idx = torch.isin(train_labels, cls_idx)
+        train_label_per_increment.append(train_labels[incr_idx])
+        train_data_per_increment.append(train_data[incr_idx]) 
 
-    return increments_data
+    return train_data_per_increment, train_label_per_increment
 
-
-train_test = torch.randn(100,3,32,32)
-test_test = torch.randint(0, 9, (100,))
 
